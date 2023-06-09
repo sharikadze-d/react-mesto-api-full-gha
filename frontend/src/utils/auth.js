@@ -1,4 +1,4 @@
-const BASE_URL = 'https://auth.nomoreparties.co'
+const BASE_URL = 'api.mesto.dsharikdaze.nomoredomains.rocks'
 
 const handleResponse = res => { //Обработка ответа
   if (res.ok) {
