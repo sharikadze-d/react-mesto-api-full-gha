@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState, useRef} from 'react';
+import { Link } from 'react-router-dom';
+import { useRef } from 'react';
 
 export default function Register ({ handleRegister }) {
   const emailRef = useRef(),
