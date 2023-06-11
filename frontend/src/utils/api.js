@@ -1,5 +1,5 @@
 const apiConfig = {
-  url: 'http://api.mesto.dsharikdaze.nomoredomains.rocks',
+  url: 'https://api.mesto.dsharikdaze.nomoredomains.rocks',
   headers: {
     'Content-Type': 'application/json',
     authorization: `Bearer ${localStorage.getItem('jwt')}`

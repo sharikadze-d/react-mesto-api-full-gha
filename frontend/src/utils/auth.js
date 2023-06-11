@@ -1,4 +1,4 @@
-const BASE_URL = 'http://api.mesto.dsharikdaze.nomoredomains.rocks';
+const BASE_URL = 'https://api.mesto.dsharikdaze.nomoredomains.rocks';
 // const BASE_URL = 'http://localhost:3001';
 
 const handleResponse = res => { //Обработка ответа
