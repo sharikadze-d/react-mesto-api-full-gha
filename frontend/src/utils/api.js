@@ -40,8 +40,11 @@ class Api {
   }
 
   //Получение данных карточек "из коробки"
-  getInitialCardsData() {
-    return fetch(`${this._url}/cards`, { headers: this._headers })
+  getInitialCardsData(token) {
+    return fetch(`${this._url}/cards`, { headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`
+    } })
     .then(handleResponse)
   }
 

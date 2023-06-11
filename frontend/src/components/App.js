@@ -106,8 +106,10 @@ function App() {
 
   //Наполнение страницы при загрузке
   React.useEffect(() => {
-    if (loggedIn) {
-      Promise.all([api.getUserData(), api.getInitialCardsData()])
+    tokenCheck();
+    const token = localStorage.getItem('jwt');
+    if (loggedIn && userEmail) {
+      Promise.all([getUserData(token), api.getInitialCardsData(token)])
         .then(res => {
           setCurrentUser(res[0]);
           setCards(res[1].reverse());
@@ -120,9 +122,9 @@ function App() {
         })
     }
     
-    tokenCheck();
+    
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ loggedIn ])
+  }, [ loggedIn, userEmail ])
 
   function handleAuthorization(email, password) {
     authorize(email, password)
