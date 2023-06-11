@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.105.208
+IP 158.160.105.208
 
 Frontend https://mesto.dsharikdaze.nomoredomains.rocks
 
