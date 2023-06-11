@@ -106,18 +106,23 @@ function App() {
 
   //Наполнение страницы при загрузке
   React.useEffect(() => {
-    Promise.all([api.getUserData(), api.getInitialCardsData()])
-      .then(res => {
-        setCurrentUser(res[0]);
-        setCards(res[1].reverse());
-      })
-      .catch(() => {
-        console.log(new Error('Ошибка загрузки'));
-      })
+    if (loggedIn) {
+      Promise.all([api.getUserData(), api.getInitialCardsData()])
+        .then(res => {
+          setCurrentUser(res[0]);
+          setCards(res[1].reverse());
+        })
+        .then(() => {
+          loggedIn ? navigate('/', {replace: true}) : navigate('/sign-up', {replace: true});
+        })
+        .catch(() => {
+          console.log(new Error('Ошибка загрузки'));
+        })
+    }
     
-    loggedIn ? navigate('/', {replace: true}) : navigate('/sign-up', {replace: true});
     tokenCheck();
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ loggedIn ])
 
   function handleAuthorization(email, password) {
     authorize(email, password)
