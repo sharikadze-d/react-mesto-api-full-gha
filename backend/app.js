@@ -9,6 +9,7 @@ const router = require('./routes/index');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const handleError = require('./middlewares/handleError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const {
   createUserValidation,
   loginValidation,
@@ -23,6 +24,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(requestLogger);
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -31,6 +34,8 @@ app.get('/crash-test', () => {
 app.use('/signin', loginValidation, login);
 app.use('/signup', createUserValidation, createUser);
 app.use(auth, router);
+
+app.use(errorLogger);
 
 app.use(errors());
 app.use(handleError);
