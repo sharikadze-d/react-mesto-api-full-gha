@@ -34,7 +34,7 @@ function App() {
   //Обработчик кнопки лайка
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
           
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.changeLikeCardStatus(card, isLiked)
@@ -109,7 +109,7 @@ function App() {
     Promise.all([api.getUserData(), api.getInitialCardsData()])
       .then(res => {
         setCurrentUser(res[0]);
-        setCards(res[1]);
+        setCards(res[1].reverse());
       })
       .catch(() => {
         console.log(new Error('Ошибка загрузки'));
@@ -122,10 +122,10 @@ function App() {
   function handleAuthorization(email, password) {
     authorize(email, password)
       .then((res) => { 
-        localStorage.setItem('jwt', res.token);
-        getUserData(res.token)
+        localStorage.setItem('jwt', res.jwt);
+        getUserData(res.jwt)
           .then((res) => {
-            handleLogIn(res.data.email);
+            handleLogIn(res.email);
             navigate('/');
           })
        })
@@ -148,7 +148,7 @@ function App() {
     getUserData(token)
       .then(res => { 
         if (res) {
-          handleLogIn(res.data.email);
+          handleLogIn(res.email);
           navigate('/');
         }
        })

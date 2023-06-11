@@ -1,8 +1,8 @@
 const apiConfig = {
-  url: 'https://mesto.nomoreparties.co/v1/cohort-60',
+  url: 'http://api.mesto.dsharikdaze.nomoredomains.rocks',
   headers: {
     'Content-Type': 'application/json',
-    authorization: '7daba374-a55e-4250-81a9-4f3724b24784'
+    authorization: `Bearer ${localStorage.getItem('jwt')}`
   }
 }
 
