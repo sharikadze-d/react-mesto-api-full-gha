@@ -1,7 +1,7 @@
 import regOK from '../images/reg-ok.svg';
 import regError from '../images/reg-error.svg';
 
-export default function InfoTooltip({ isRegistred, isOpen, onClose }) {
+export default function InfoTooltip({ isRegistred, isOpen, onClose, errMessage }) {
   return (
     <div className={`popup popup_type_info ${isOpen ? 'popup_opened' : ''}`}>
         <div className="popup__container">
@@ -11,7 +11,7 @@ export default function InfoTooltip({ isRegistred, isOpen, onClose }) {
             alt={isRegistred ? 'Успешная регистрация' : 'Ошибка'}
           />
           <h3 className="popup__title popup__title_info">
-            {isRegistred ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}
+            {isRegistred ? 'Вы успешно зарегистрировались!' : (errMessage || 'Что-то пошло не так! Попробуйте ещё раз.')}
           </h3>
         </div>
       </div>

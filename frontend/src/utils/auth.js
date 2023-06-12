@@ -1,12 +1,11 @@
 const BASE_URL = 'https://api.mesto.dsharikdaze.nomoredomains.rocks';
-// const BASE_URL = 'http://localhost:3001';
 
-const handleResponse = res => { //Обработка ответа
-  if (res.ok) {
-    if (res.item) { return res.item };
-    return res.json();
-  }
-  return Promise.reject(new Error(`Ошибка: ${res.status}`));
+const handleResponse = res => {
+  return res.json()
+    .then(res => {
+      if (!res.message) return res;
+      return Promise.reject(new Error(res.message));
+    })
 }
 
 //Регистрация
@@ -43,5 +42,15 @@ export function getUserData(token) {
       "Authorization" : `Bearer ${token}` },
     method: 'GET'
   })
+  .then(handleResponse)
+}
+
+export function getInitialCardsData(token) {
+  return fetch(`${BASE_URL}/cards`, {
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization" : `Bearer ${token}` },
+    method: 'GET'
+} )
   .then(handleResponse)
 }

@@ -27,7 +27,8 @@ function App() {
         [loggedIn, setLoggedIn] = useState(false),
         [userEmail, setUserEmail] = useState(''),
         [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false),
-        [isRegistred, setIsRegistred] = useState(false);
+        [isRegistred, setIsRegistred] = useState(false),
+        [errMessage, setErrMessage] = useState(false);
 
   const navigate = useNavigate();
 
@@ -109,7 +110,7 @@ function App() {
     tokenCheck();
     const token = localStorage.getItem('jwt');
     if (loggedIn && userEmail) {
-      Promise.all([getUserData(token), api.getInitialCardsData(token)])
+      Promise.all([getUserData(token), api.getInitialCardsData()])
         .then(res => {
           setCurrentUser(res[0]);
           setCards(res[1].reverse());
@@ -121,7 +122,6 @@ function App() {
           console.log(new Error('Ошибка загрузки'));
         })
     }
-    
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ loggedIn, userEmail ])
@@ -136,13 +136,18 @@ function App() {
             navigate('/');
           })
        })
-      .catch(err => { console.log(new Error(err)) })
+      .catch((err) => { 
+        console.log(err.message)
+        setErrMessage(err.message); 
+        openInfoTooltip() })
   }
 
   function handleRegister(email, password) {
     register(email, password)
     .then(() => { setIsRegistred(true) })
-    .catch(() => { setIsRegistred(false) })
+    .catch((err) => { 
+      setErrMessage(err.message); 
+      setIsRegistred(false) })
     .finally(() => { openInfoTooltip() })
   }
 
@@ -256,7 +261,8 @@ function App() {
         <InfoTooltip 
           isRegistred={isRegistred}
           isOpen={isInfoPopupOpen}
-          onClose={closeInfoTooltip} />
+          onClose={closeInfoTooltip}
+          errMessage={errMessage} />
       </div>
     </CurrentUserContext.Provider>
   );

@@ -2,7 +2,7 @@ const apiConfig = {
   url: 'https://api.mesto.dsharikdaze.nomoredomains.rocks',
   headers: {
     'Content-Type': 'application/json',
-    authorization: `Bearer ${localStorage.getItem('jwt')}`
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`
   }
 }
 
@@ -22,14 +22,20 @@ class Api {
 
   //Получение данных пользователя
   getUserData() {
-    return fetch(`${this._url}/users/me`, { headers: this._headers })
+    return fetch(`${this._url}/users/me`, { headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    } })
     .then(handleResponse)
   }
 
   //Установка данных пользователя
   setUserData({ name, about }) {
     return fetch(`${this._url}/users/me`, { 
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       method: 'PATCH',
       body: JSON.stringify({
         name: name,
@@ -40,10 +46,10 @@ class Api {
   }
 
   //Получение данных карточек "из коробки"
-  getInitialCardsData(token) {
+  getInitialCardsData() {
     return fetch(`${this._url}/cards`, { headers: {
       'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     } })
     .then(handleResponse)
   }
@@ -51,7 +57,10 @@ class Api {
   //Отправка данных карточки на сервер
   setCardData( {name, link } ) {
     return fetch(`${this._url}/cards`, { 
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       method: 'POST',
       body: JSON.stringify({
         name: name,
@@ -64,7 +73,10 @@ class Api {
   //Удаление данных карточки с сервера
   deleteCard(item) {
     return fetch(`${this._url}/cards/${item._id}`, {
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       method: 'DELETE'
     })
     .then((res) => {
@@ -76,7 +88,10 @@ class Api {
 
   changeLikeCardStatus( card, isLiked) {
     return fetch(`${this._url}/cards/${card._id}/likes`, {
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       method: `${isLiked ? 'DELETE' : 'PUT'}`
     })
     .then(handleResponse)
@@ -85,7 +100,10 @@ class Api {
   //установка аватара
   setAvatar( link ) {
     return fetch(`${this._url}/users/me/avatar`, {
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
       method: 'PATCH',
       body: JSON.stringify({
         avatar: link
